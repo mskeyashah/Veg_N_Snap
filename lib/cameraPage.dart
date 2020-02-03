@@ -313,4 +313,3 @@ class FlutterVisionApp extends StatelessWidget {
       home: FlutterVisionHome(),
     );
   }
-}
