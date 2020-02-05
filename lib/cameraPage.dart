@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:adv_camera/adv_camera.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -173,9 +174,9 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     for (TextBlock block in visionText.blocks)
       for (TextLine line in block.lines){
         for (TextElement element in line.elements){
+          print(element.text);
           for(String nonv in nonVeg){
             newStr = element.text.replaceAll(",", "").toLowerCase();
-            print(newStr);
             if(nonv==newStr){
               //print(nonv);
               nvFlag=1;
@@ -184,7 +185,7 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
           }
           for(String veg in vegetarian) {
             newStr = element.text.replaceAll(",", "").toLowerCase();
-            if(veg==newStr) {
+            if(veg.contains(newStr)) {
               vegFlag = 1;
               break;
             }
