@@ -19,7 +19,8 @@ Map<String, bool> values = {
 
 Future test() async{
   databaseReference.once().then((DataSnapshot snapshot) {
-      values=Map<String,bool>.from(snapshot.value[name]['food']);
+      var em1 = email.substring(0,email.indexOf('@'));
+      values=Map<String,bool>.from(snapshot.value[em1]['food']);
     });
 }
 

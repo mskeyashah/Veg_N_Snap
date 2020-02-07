@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:adv_camera/adv_camera.dart';
+//import 'package:adv_camera/adv_camera.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,6 +17,12 @@ Future test() async{
   databaseReference.once().then((DataSnapshot snapshot) {
     values=Map<String,bool>.from(snapshot.value[name]['food']);
   });
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    cameras = await availableCameras();
+  } on CameraException catch (e) {
+    logError(e.code, e.description);
+  }
 }
 
 List<CameraDescription> cameras;
