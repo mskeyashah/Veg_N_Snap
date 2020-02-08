@@ -7,21 +7,21 @@ final databaseReference = FirebaseDatabase.instance.reference();
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 Map<String, bool> values = {
-    'Soybeans': false,
-    'Crustacean shellfish': false,
-    'Peanuts': false,
-    'Tree nuts': false,
-    'Fish': false,
-    'Wheat': false,
-    'Eggs': false,
-    'Milk': false,
-  };
+  'Soybeans': false,
+  'Crustacean shellfish': false,
+  'Peanuts': false,
+  'Tree nuts': false,
+  'Fish': false,
+  'Wheat': false,
+  'Eggs': false,
+  'Milk': false,
+};
 
 Future test() async{
   databaseReference.once().then((DataSnapshot snapshot) {
-      var em1 = email.substring(0,email.indexOf('@'));
-      values=Map<String,bool>.from(snapshot.value[em1]['food']);
-    });
+    var em1 = email.substring(0,email.indexOf('@'));
+    values=Map<String,bool>.from(snapshot.value[em1]['food']);
+  });
 }
 
 class Profile extends StatefulWidget {
@@ -37,12 +37,12 @@ class ProfilePage extends State<Profile> {
     /* WidgetsBinding.instance.addPostFrameCallback((_) async {
             await test();
           }); */
-          test().then((result){
-            setState(() {
-                _result = result;
-            });
-            print("Data retrived");
-          });
+    test().then((result){
+      setState(() {
+        _result = result;
+      });
+      print("Data retrived");
+    });
     super.initState();
   }
   @override
@@ -53,7 +53,7 @@ class ProfilePage extends State<Profile> {
     }
     return Stack(children: <Widget>[
       Scaffold(
-        key: _scaffoldKey,
+          key: _scaffoldKey,
           body: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -62,103 +62,135 @@ class ProfilePage extends State<Profile> {
                   colors: [Colors.blue[400], Colors.blue[100]],
                 ),
               ),
+
               child: Container(
                   child: Column(
-                      /* mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max, */
+
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
+
                         SizedBox(height: 20),
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        imageUrl,
-                      ),
-                      radius: 50,
-                      backgroundColor: Colors.transparent,
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      'NAME',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black54),
-                    ),
-                    Text(
-                      name,
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.deepPurple,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'EMAIL',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black54),
-                    ),
-                    Text(
-                      email,
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.deepPurple,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 20),
-                    RaisedButton(
-                      onPressed: () {
-                        signOutGoogle();
-                        /* Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) {
-                          return LoginPage();
-                        }), ModalRoute.withName('/')); */
-                        runApp(LoginPage());
-                      },
-                      color: Colors.deepPurple,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Sign Out',
-                          style: TextStyle(fontSize: 25, color: Colors.white),
+                        Row(
+                            children: [
+                              SizedBox(width: 10),
+                              Column(
+                                  children: [
+
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                        imageUrl,
+                                      ),
+                                      radius: 45,
+                                      backgroundColor: Colors.transparent,
+
+                                    )
+                                  ] ),
+                              SizedBox(width: 10),
+                              Column(
+
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'NAME: ',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black54),
+                                    ),
+                                    Text(
+                                      name,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.deepPurple,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'EMAIL: ',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black54),
+                                    ),
+                                    Text(
+                                      email,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.deepPurple,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 5),
+
+                                    RaisedButton(
+                                      onPressed: () {
+                                        signOutGoogle();
+                                        runApp(LoginPage());
+                                      },
+                                      color: Colors.deepPurple,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(1.0),
+                                        child: Text(
+                                          'Sign Out',
+                                          style: TextStyle(fontSize: 18, color: Colors.white),
+                                        ),
+                                      ),
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(40)),
+                                    )
+                                  ])
+                            ]),
+                        SizedBox(height: 15),
+                        Text(
+                          '  Scroll down and select the ingredients you      ',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
                         ),
-                      ),
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40)),
-                    ),
-                    Expanded(
-                        child: Stack(children: <Widget>[
-                      ListView(
-                        children: values.keys.map(
-                          (String key) {
-                            return new CheckboxListTile(
-                              activeColor: Colors.deepPurple,
-                              title: new Text(key),
-                              value: values[key],
-                              onChanged: (bool value) {
-                                setState(() {
-                                  values[key] = value;
-                                });
-                              },
-                            );
-                          },
-                        ).toList(),
-                      ),
-                      Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: EdgeInsets.all(20),
+                        Text(
+                          'are allergic to.',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+
+                        Expanded(
+                            child: Stack(children: <Widget>[
+                              ListView(
+                                children: values.keys.map(
+                                      (String key) {
+                                    return new CheckboxListTile(
+                                      activeColor: Colors.deepPurple,
+                                      title: new Text(key),
+                                      value: values[key],
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          values[key] = value;
+                                        });
+                                      },
+                                    );
+                                  },
+                                ).toList(),
+
+                              ),
+                            ])),
+                        Padding(
+                            padding: EdgeInsets.all(10),
+                            child: SizedBox(
+                                width: 35.0,
+                                height: 35.0,
                             child: FloatingActionButton(
                               backgroundColor: Colors.deepPurple,
                               onPressed: () async {
                                 await createRecord();
                               },
                               child: Icon(Icons.check),
-                            ),
-                          ))
-                    ]))
-                  ])))),
+                            )
+                        ))])))),
     ]);
   }
 
