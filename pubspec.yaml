@@ -27,6 +27,7 @@ dependencies:
   giffy_dialog: ^1.7.0
   translator: ^0.1.4
   adv_camera: ^1.0.0+1
+  shared_preferences: ^0.4.2
 
   flutter:
     sdk: flutter

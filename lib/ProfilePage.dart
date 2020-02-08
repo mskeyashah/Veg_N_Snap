@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:VeggieBuddie/loginPage.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final databaseReference = FirebaseDatabase.instance.reference();
 
@@ -15,13 +16,26 @@ Map<String, bool> values = {
   'Wheat': false,
   'Eggs': false,
   'Milk': false,
+  'Gluten' : false,
 };
 
-Future test() async{
-  databaseReference.once().then((DataSnapshot snapshot) {
-    var em1 = email.substring(0,email.indexOf('@'));
-    values=Map<String,bool>.from(snapshot.value[em1]['food']);
-  });
+Future test() async
+{
+  if(email!="guest@veggiebuddie.com")
+  {
+     databaseReference.once().then((DataSnapshot snapshot)
+     {
+        var em1 = email.substring(0,email.indexOf('@'));
+        values=Map<String,bool>.from(snapshot.value[em1]['food']);
+    });
+  }
+  else
+    {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      values.forEach((key, value) {
+        values[key] = prefs.getBool(key) ?? false;
+      });
+    }
 }
 
 class Profile extends StatefulWidget {
@@ -195,7 +209,15 @@ class ProfilePage extends State<Profile> {
   }
 
   Future createRecord() async {
-    databaseReference.child(index).update({'food': values});
+    if(email!="guest@veggiebuddie.com") {
+      databaseReference.child(index).update({'food': values});
+    }
+    else {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      values.forEach((key, value) {
+        prefs.setBool(key, value);
+      });
+    }
     _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Changes saved!")));
   }
 }

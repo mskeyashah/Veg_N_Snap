@@ -48,7 +48,8 @@ Future<String> signInWithGoogle() async {
 
   name = user.displayName;
   email = user.email;
-  imageUrl = user.photoUrl;
+  if(user.photoUrl != null)
+    imageUrl = user.photoUrl;
   if (name.contains(" ")) {
     name = name.substring(0, name.indexOf(" "));
   }
@@ -186,9 +187,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future createRecord() async {
+    if(name!='Guest') {
       databaseReference.child(index).update({
-          'name': name,
-          'email': email,
-    });
+        'name': name,
+        'email': email,
+      });
+    }
   }
 }
