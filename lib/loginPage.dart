@@ -24,9 +24,11 @@ Future<String> signInWithGoogle() async {
   } on CameraException catch (e) {
     logError(e.code, e.description);
   }
+  print("break 0");
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+  print("break 1");
   final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
+  await googleSignInAccount.authentication;
 
   final AuthCredential credential = GoogleAuthProvider.getCredential(
     accessToken: googleSignInAuthentication.accessToken,
@@ -48,8 +50,7 @@ Future<String> signInWithGoogle() async {
 
   name = user.displayName;
   email = user.email;
-  if(user.photoUrl != null)
-    imageUrl = user.photoUrl;
+  imageUrl = user.photoUrl;
   if (name.contains(" ")) {
     name = name.substring(0, name.indexOf(" "));
   }
@@ -81,12 +82,12 @@ class _LoginPageState extends State<LoginPage> {
     return Material(
       child: Container(
         decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [Colors.teal[400], Colors.teal[200]],
-                ),
-              ),
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [Colors.teal[400], Colors.teal[200]],
+          ),
+        ),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -96,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 20),
               Directionality(
                 textDirection: TextDirection.ltr,
-              child:Text("VeggieBuddie",style: TextStyle(fontSize: 40,color: Colors.green[200],fontWeight: FontWeight.w900,),),
+                child:Text("VeggieBuddie",style: TextStyle(fontSize: 40,color: Colors.green[200],fontWeight: FontWeight.w900,),),
               ),
               SizedBox(height: 50),
               Directionality(
@@ -187,11 +188,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future createRecord() async {
-    if(name!='Guest') {
-      databaseReference.child(index).update({
-        'name': name,
-        'email': email,
-      });
-    }
+    databaseReference.child(index).update({
+      'name': name,
+      'email': email,
+    });
   }
 }

@@ -25,7 +25,8 @@ Future test() async
   {
      databaseReference.once().then((DataSnapshot snapshot)
      {
-        var em1 = email.substring(0,email.indexOf('@'));
+       print(email);
+       var em1 = email.substring(0,email.indexOf('@'));
         values=Map<String,bool>.from(snapshot.value[em1]['food']);
     });
   }
@@ -158,17 +159,15 @@ class ProfilePage extends State<Profile> {
                             ]),
                         SizedBox(height: 15),
                         Text(
-                          '  Scroll down and select the ingredients you      ',
+                          '  Scroll down and select the ingredients ',
                           style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
                               color: Colors.black),
                         ),
                         Text(
-                          'are allergic to.',
+                          'you are allergic to.',
                           style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
                               color: Colors.black),
                         ),
 

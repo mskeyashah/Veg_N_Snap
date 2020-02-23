@@ -13,15 +13,18 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart' show DeviceOrientation, rootBundle;
 
 Future test() async{
-  final databaseReference = FirebaseDatabase.instance.reference();
-  databaseReference.once().then((DataSnapshot snapshot) {
-    values=Map<String,bool>.from(snapshot.value[name]['food']);
-  });
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-    cameras = await availableCameras();
-  } on CameraException catch (e) {
-    logError(e.code, e.description);
+  if(name!="Guest") {
+      String em1 = email.substring(0,email.indexOf("@"));
+      final databaseReference = FirebaseDatabase.instance.reference();
+      databaseReference.once().then((DataSnapshot snapshot) {
+        values = Map<String, bool>.from(snapshot.value[em1]['food']);
+      });
+      try {
+        WidgetsFlutterBinding.ensureInitialized();
+        cameras = await availableCameras();
+      } on CameraException catch (e) {
+        logError(e.code, e.description);
+      }
   }
 }
 
