@@ -183,40 +183,43 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     for (TextBlock block in visionText.blocks)
       for (TextLine line in block.lines){
         for (TextElement element in line.elements){
-          print(element.text);
+          newStr = element.text.replaceAll(",", "").toLowerCase();
           for(String nonv in nonVeg){
-            newStr = element.text.replaceAll(",", "").toLowerCase();
-            if(nonv==newStr){
+            if(newStr.contains(nonv)){
               //print(nonv);
               nvFlag=1;
               break;
             }
           }
           for(String veg in vegetarian) {
-            newStr = element.text.replaceAll(",", "").toLowerCase();
             if(veg.contains(newStr)) {
               vegFlag = 1;
               break;
             }
           }
           for(String vega in vegan) {
-            newStr = element.text.replaceAll(",", "").toLowerCase();
             if(vega==newStr)  {
               veganFlag = 1;
               break;
             }
           }
           for(String alle in allergies) {
-            newStr = element.text.replaceAll(",", "").toLowerCase();
             if(alle==newStr)  {
               alleFlag = 1;
               break;
             }
           }
-          text=text+newStr+" ";
+          if(newStr.contains("ingredient") || text.contains("Ingredient")) {
+            if(newStr.contains("ingredient"))
+                text = text + "Ingredients:\n";
+            else if(newStr.contains("contains:"))
+              text = text + "\nContains: ";
+            else
+            text = text + element.text.toLowerCase() + " ";
+          }
         }
-        text=text+"\n";
       }
+    print("text: "+text);
     String status = "The ingredients could not be detected!";
     int x=1;
     String filegif = "gifs/notfound.gif";
@@ -243,17 +246,36 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
 
   showDialog(
     context: context,
-    builder: (_) => AssetGiffyDialog(
-    image: Image.asset(filegif, fit: BoxFit.cover),
-    title: new Text(status+"\n\n"+t,
-    textAlign: TextAlign.center,
-    style: TextStyle(
-      fontSize: 22.0,
-      fontWeight: FontWeight.w600),
-    ),
-    onlyCancelButton: true,
-    buttonCancelText: Text("Ok", style: TextStyle(fontSize: 18.0,color: Colors.white)),
-    buttonCancelColor: Colors.teal[300],
+    builder: (_) => AlertDialog(
+      content: new Column(
+          children: <Widget>[
+            Image.asset(filegif, height: 200, width: 250),
+            Text(status+"\n"+t,
+            textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              )
+            ),
+            SizedBox(height: 12),
+            Expanded(
+              child: new SingleChildScrollView(
+                  child: new Text(text,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 15
+                  ))
+            ))
+          ]
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: Text('Ok'),
+          onPressed: () {
+            Navigator.of(context, rootNavigator: true).pop();
+          },
+        ),
+      ],
     ));
     textRecognizer.close();
     }
