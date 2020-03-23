@@ -1,7 +1,7 @@
 1,2-propanediol
-Accent 
-acesulfame K
-acesulfame potassium 
+accent
+acesulfame k
+acesulfame potassium
 acetic acid
 acid calcium phosphate
 acrylate-acrylamide resin
@@ -18,7 +18,7 @@ annatto
 annatto extract
 annatto seed
 anticaking agent
-apple acid 
+apple acid
 arabic
 ascorbic acid
 aspartame
@@ -28,13 +28,13 @@ baking soda
 beet sugar
 bentonite
 benzoyl peroxide
-BHA
-BHT
+bha
+bht
 bicarbonate of soda
 bioflavinoids
-Brewer's yeast
+brewer's yeast
 bromelain
-bromelin 
+bromelin
 butanoic acid
 butylated hydroxyanisole
 butylated hydroxytoluene
@@ -59,24 +59,24 @@ carrageenan
 caustic soda
 cellulose gum
 charcoal
-Chile saltpeter
+chile saltpeter
 chondrus extract
 citric acid
-CMC
+cmc
 cocoa butter
 colophony
 corn gluten
 corn gluten meal
 cream of tartar
 cyanocobalamin
-DevanSweet
+devansweet
 dextrose
 diatomaceous earth
 dicalcium phosphate dihydrate
 distillation
 distilled vinegar
-EDTA
-Equal
+edta
+equal
 erythorbic acid
 essential oil
 ethanol
@@ -95,14 +95,14 @@ hesperidin
 hexadienic acid
 hexadienoic acid
 high fructose corn syrup
-HPMC
+hpmc
 hydrogenation
 hydrogen peroxide
 hydroxypropyl methylcellulose
 hypromellose
-Irish moss
+irish moss
 isoascorbic acid
-Japanese isinglass
+japanese isinglass
 kieselguhr
 lecithin
 light oil
@@ -123,18 +123,18 @@ mineral oil
 molasses
 monocalcium phosphate
 monosodium glutamate
-MSG
+msg
 natural sugar
 nonnutritive sweetener
 norbixin
-Nutrasweet
+nutrasweet
 nutritional yeast
-n-butyric acid 
+n-butyric acid
 oleoresin
 papain
 paprika
 paraffin
-plaster of Paris
+plaster of paris
 polyacrylomite
 polydextrose
 polyethylene
@@ -147,13 +147,14 @@ potassium sulfate
 precipitated calcium phosphate
 pregelatinized starch
 propanoic acid
-propanoic acid, calcium salt
+propanoic acid
+calcium salt
 propionic acid
 propylene glycol
 refined beet sugar
 resin
 rice syrup
-Rochelle salts
+rochelle salts
 rosin
 rutin
 saccharin
@@ -174,16 +175,18 @@ sodium nitrate
 sodium potassium tartrate
 sodium tartrate
 sorbic acid
-sorbic acid, potassium salt
+sorbic acid
+potassium salt
 sorbistat
 sorbitan
 spirit vinegar
 starch
-St. John's bread
-Sucanat
+salt
+st. john's bread
+sucanat
 succinic acid
-Sucralose
-Sunette
+sucralose
+sunette
 tartaric acid
 textured soy flour
 textured soy protein
@@ -192,7 +195,7 @@ tricalcium phosphate
 tumeric
 turbinado sugar
 turmeric
-TVP
+tvp
 unmodified food starch
 unmodified starch
 vanilla
@@ -201,10 +204,10 @@ vanillin
 vinegar
 vinegar, distilled
 vital wheat gluten
-vitamin B-12
-vitamin C
-vitamin D2
-vitamin E
+vitamin b-12
+vitamin c
+vitamin d2
+vitamin e
 washed raw sugar
 wheat gluten
 wheat isolate
@@ -213,7 +216,7 @@ white oil
 white vinegar
 yeast autolyzates
 zein
-Zest
+zest
 alpha tocopherol
 amylase
 antimicrobial agent
@@ -225,8 +228,8 @@ calcium pantothenate
 calcium stearate
 chelating agent
 cultured dextrose
-Datem
-Defoaming agent
+datem
+defoaming agent
 diglyceride
 disodium inosinate
 dough strengthener
@@ -243,7 +246,7 @@ lactoflavin
 leavener
 leavening agent
 levulose-bearing syrup
-Lutein
+lutein
 magnesium stearate
 maple sugar
 maple syrup
@@ -284,14 +287,14 @@ thiamin mononitrate
 thickener
 tocopherol
 vitamin
-vitamin B-1
-vitamin B-2
-vitamin B-3
-vitamin B-5
-vitamin B-6
-vitamin B-6 hydrochloride
-vitamin E
-vitamin P complex
+vitamin b-1
+vitamin b-2
+vitamin b-3
+vitamin b-5
+vitamin b-6
+vitamin b-6 hydrochloride
+vitamin e
+vitamin p complex
 yeast food
 zeaxanthin
 peanuts
@@ -319,3 +322,167 @@ chinquapin
 lychee nut
 coconut
 pili nut
+oil
+palm oil
+vegetable oil
+canola oil
+wheat
+oats
+apple
+pear
+kiwi
+orange
+grapefruit
+lemon
+lime
+peach
+plum
+nectarine
+banana
+raspberry
+blackberry
+watermelon
+honeydew
+cantaloupe
+apricot
+grapes
+mango
+cherry
+strawberry
+blueberry
+artichoke
+arugula
+asparagus
+avocado
+bamboo shoots
+bean sprouts
+beans
+beet
+belgian endive
+bell pepper
+bitter melon
+bitter gourd
+bok choy
+broccoli
+brussels sprouts
+burdock root
+cabbage
+calabash
+capers
+carrot
+cassava
+cauliflower
+celery
+celery root/celeriac
+celtuce
+chayote
+chinese broccoli
+corn
+maize
+baby corn
+candle corn
+cucumber
+english cucumber
+gherkin
+pickling cucumbers
+daikon radish
+edamame
+eggplant
+aubergine
+elephant garlic
+endive
+curly
+frisee
+escarole
+fennel
+fiddlehead
+galangal
+garlic
+ginger
+grape leaves
+green beans
+string beans
+snap beans
+wax beans
+amaranth leaves
+chinese spinach
+beet greens
+collard greens
+dandelion greens
+kale
+kohlrabi greens
+mustard greens
+rapini
+spinach
+swiss chard
+turnip greens
+hearts of palm
+horseradish
+jerusalem artichoke
+sunchokes
+jícama
+kale
+curly
+lacinato
+ornamental
+kohlrabi
+leeks
+lemongrass
+lettuce
+butterhead
+iceberg
+green leaf
+red leaf
+romaine
+lotus root
+lotus seed
+mushrooms
+napa cabbage
+nopales
+okra
+olive
+onion
+green onions
+scallions
+parsley
+parsley root
+parsnip
+peas
+green peas
+snow peas
+sugar snap peas
+peppers
+plantain
+potato
+pumpkin
+purslane
+radicchio
+radish
+rutabaga
+sea vegetables
+shallots
+spinach
+squash
+sweet potato
+swiss chard
+taro
+tomatillo
+tomato
+turnip
+water chestnut
+water spinach
+watercress
+winter melon
+yams
+zucchini
+quinoa
+brown rice
+white rice
+millet
+barley
+oats
+tofu
+brown sugar
+sugar
+vegan
+vegetable shortening

@@ -53,7 +53,6 @@ malting aid
 moisture-retaining agent
 moisture-retention agent
 n-hexanoic acid
-oil
 protease
 Provitamin A
 surface acting agent
@@ -64,3 +63,4 @@ wax
 wetting agent
 whey
 whipping agent
+chocolate

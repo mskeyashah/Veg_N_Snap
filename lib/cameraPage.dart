@@ -14,17 +14,17 @@ import 'package:flutter/services.dart' show DeviceOrientation, rootBundle;
 
 Future test() async{
   if(name!="Guest") {
-      String em1 = email.substring(0,email.indexOf("@"));
-      final databaseReference = FirebaseDatabase.instance.reference();
-      databaseReference.once().then((DataSnapshot snapshot) {
-        values = Map<String, bool>.from(snapshot.value[em1]['food']);
-      });
-      try {
-        WidgetsFlutterBinding.ensureInitialized();
-        cameras = await availableCameras();
-      } on CameraException catch (e) {
-        logError(e.code, e.description);
-      }
+    String em1 = email.substring(0,email.indexOf("@"));
+    final databaseReference = FirebaseDatabase.instance.reference();
+    databaseReference.once().then((DataSnapshot snapshot) {
+      values = Map<String, bool>.from(snapshot.value[em1]['food']);
+    });
+    try {
+      WidgetsFlutterBinding.ensureInitialized();
+      cameras = await availableCameras();
+    } on CameraException catch (e) {
+      logError(e.code, e.description);
+    }
   }
 }
 
@@ -153,13 +153,23 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFilePath(imagePath);
     final TextRecognizer textRecognizer = FirebaseVision.instance.textRecognizer();
     final VisionText visionText = await textRecognizer.processImage(visionImage);
+    String nvIng = "Non-Vegetarian: ";
+    String vegIng = "Vegetarian: ";
+    String veganIng = "Vegan: ";
+    String allerIng = "Allergens: ";
     String text="";
+    String text1 = "";
+    String notFound  = "";
+    int check = 0;
     int nvFlag=0;
     int veganFlag = 0;
     int vegFlag = 0;
     int alleFlag=0;
     String newStr;
     String t="";
+    String str="";
+    bool end = false;
+    var lines;
     var nonVeg=await getFileData("lists/non-veg.txt");
     var vegan = await getFileData("lists/vegan.txt");
     var vegetarian = await getFileData("lists/vegetarian.txt");
@@ -179,47 +189,112 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     if(values["Eggs"]==true)
       allergies=[...allergies, ...(await getFileData("lists/allergens/eggs.txt"))];
     if(values["Milk"]==true)
-      allergies=[...allergies, ...(await getFileData("lists/allergens/shellfish.txt"))];
-    for (TextBlock block in visionText.blocks)
-      for (TextLine line in block.lines){
-        for (TextElement element in line.elements){
-          newStr = element.text.replaceAll(",", "").toLowerCase();
-          for(String nonv in nonVeg){
-            if(newStr.contains(nonv)){
-              //print(nonv);
-              nvFlag=1;
-              break;
+      allergies=[...allergies, ...(await getFileData("lists/allergens/milk.txt"))];
+
+    for (TextBlock block in visionText.blocks) {
+      if(end)
+        break;
+      else
+        for (TextLine line in block.lines) {
+          if(line.text.toLowerCase().contains("manufactured") || line.text.toLowerCase().contains("distributed"))
+          {
+            end = true;
+            break;
+          }
+          lines = line.text.split(",");
+          //for (TextElement element in line.elements) {
+          for(String element in lines) {
+            var lines2 = element.split("(");
+            for (String element2 in lines2) {
+              var lines3 = element2.split(")");
+              for (String element3 in lines3) {
+                var lines4 = element3.split("[");
+                for (String element4 in lines4) {
+                  var lines5 = element4.split("]");
+                  for (String element5 in lines5) {
+                    newStr = element5.toLowerCase();
+                    if (text.contains("ingredient") ||
+                        newStr.contains("ingredient")) {
+                        text = text + newStr + ",";
+                    }
+                  }
+                }
+              }
             }
           }
-          for(String veg in vegetarian) {
-            if(veg.contains(newStr)) {
-              vegFlag = 1;
-              break;
-            }
-          }
-          for(String vega in vegan) {
-            if(vega==newStr)  {
-              veganFlag = 1;
-              break;
-            }
-          }
-          for(String alle in allergies) {
-            if(alle==newStr)  {
-              alleFlag = 1;
-              break;
-            }
-          }
-          if(newStr.contains("ingredient") || text.contains("Ingredient")) {
-            if(newStr.contains("ingredient"))
-                text = text + "Ingredients:\n";
-            else if(newStr.contains("contains:"))
-              text = text + "\nContains: ";
-            else
-            text = text + element.text.toLowerCase() + " ";
+          if(line.text.toLowerCase().contains("contains:"))
+          {
+            end = true;
+            break;
           }
         }
-      }
+    }
+    var finals = text.split(",");
+    for(String element in finals) {
+        print("element: "+element);
+        for (String nonv in nonVeg) {
+            if (element.contains(nonv)) {
+                print("nonv: " + nonv);
+                if(!nvIng.contains(nonv))
+                nvIng = nvIng + nonv + ", ";
+              //print(nonv);
+                check +=1;
+              nvFlag = 1;
+            }
+          }
+          for (String veg1 in vegetarian) {
+            if (element.contains(veg1)) {
+              if(!vegIng.contains(veg1))
+              vegIng = vegIng + element + ", ";
+              print("veg: " + veg1);
+              check +=1;
+              vegFlag = 1;
+            }
+          }
+          for (String vega in vegan) {
+            if (element.contains(vega)) {
+              if(!veganIng.contains(vega))
+                veganIng = veganIng + vega + ", ";
+                print("vegan: " + vega);
+                check +=1;
+              veganFlag = 1;
+            }
+          }
+          for (String alle in allergies) {
+            if (element.contains(alle)) {
+                allerIng = allerIng + alle + ", ";
+                print("allergens: " + element);
+              alleFlag = 1;
+            }
+          }
+          if(check == 0)
+            {
+              notFound = notFound + element + ", ";
+            }
+          check = 0;
+    }
+    if(allerIng!="Allergens: ")
+    {
+      text1 += "\n"+allerIng;
+    }
+    if(nvIng!="Non-Vegetarian: ")
+    {
+      text1 += "\n\n"+nvIng;
+    }
+    if(vegIng!="Vegetarian: ")
+    {
+      text1 += "\n\n"+vegIng;
+    }
+    if(veganIng!="Vegan: ")
+    {
+      text1 += "\n\n"+veganIng;
+    }
     print("text: "+text);
+    print("not found: " + notFound);
+    print("veg: " + vegIng);
+    print("non-veg: "+nvIng);
+    print("vegan: " + veganIng);
+    print("aleergens: " + allerIng);
     String status = "The ingredients could not be detected!";
     int x=1;
     String filegif = "gifs/notfound.gif";
@@ -231,7 +306,7 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     else if(vegFlag == 1){
       status = "The product is Vegetarian!";
       filegif = "gifs/vegetarians.gif";
-    x=0;
+      x=0;
     }
     else if(veganFlag == 1){
       status = "The product is Vegan!";
@@ -239,70 +314,79 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
       x=0;
     }
 
-  if(x==0)
-    t="Safe to eat for you!";
-  if(alleFlag==1)
-    t="You are allergic to this!";
 
-  showDialog(
-    context: context,
-    builder: (_) => AlertDialog(
-      content: new Column(
-          children: <Widget>[
-            Image.asset(filegif, height: 200, width: 250),
-            Text(status+"\n"+t,
-            textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              )
+    if(x==0)
+      t="You are not allergic to this!";
+    if(alleFlag==1)
+      t="You are allergic to this!";
+
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          content: new Column(
+              children: <Widget>[
+                Image.asset(filegif, height: 200, width: 250),
+                Text(status+"\n"+t,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    )
+                ),
+                SizedBox(height: 12),
+                Expanded(
+                    child: new SingleChildScrollView(
+                        child: new Text(text1,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontSize: 15
+                            ))
+                    )),
+//                Expanded(
+//                    child: new SingleChildScrollView(
+//                        child: new Text(text,
+//                            textAlign: TextAlign.left,
+//                            style: TextStyle(
+//                                fontSize: 15
+//                            ))
+//                    ))
+              ]
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pop();
+              },
             ),
-            SizedBox(height: 12),
-            Expanded(
-              child: new SingleChildScrollView(
-                  child: new Text(text,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 15
-                  ))
-            ))
-          ]
-      ),
-      actions: <Widget>[
-        FlatButton(
-          child: Text('Ok'),
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-          },
-        ),
-      ],
-    ));
+          ],
+        ));
     textRecognizer.close();
-    }
+  }
   Future<String> takePicture() async {
     if (!controller.value.isInitialized) {
       showInSnackBar('Error: select a camera first.');
       return null;
     }
-  final Directory extDir = await getApplicationDocumentsDirectory();
-  final String dirPath = '${extDir.path}/Pictures/Foodie';
-  await Directory(dirPath).create(recursive: true);
-  final String filePath = '$dirPath/${timestamp()}.jpg';
-  if (controller.value.isTakingPicture) {
-    return null;
+    final Directory extDir = await getApplicationDocumentsDirectory();
+    final String dirPath = '${extDir.path}/Pictures/Foodie';
+    await Directory(dirPath).create(recursive: true);
+    final String filePath = '$dirPath/${timestamp()}.jpg';
+    if (controller.value.isTakingPicture) {
+      return null;
+    }
+    try {
+      await controller.takePicture(filePath);
+    } on CameraException catch (e) {
+      _showCameraException(e);
+      return null;
+    }
+    return filePath;
   }
-  try {
-    await controller.takePicture(filePath);
-  } on CameraException catch (e) {
-    _showCameraException(e);
-    return null;
+  void _showCameraException(CameraException e) {
+    logError(e.code, e.description);
+    showInSnackBar('Error: ${e.code}\n${e.description}');
   }
-  return filePath;
-}
-void _showCameraException(CameraException e) {
-  logError(e.code, e.description);
-  showInSnackBar('Error: ${e.code}\n${e.description}');
-}
 }
 class FlutterVisionApp extends StatelessWidget {
   @override
