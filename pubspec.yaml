@@ -27,6 +27,7 @@ dependencies:
   giffy_dialog: ^1.7.0
   translator: ^0.1.4
   shared_preferences: ^0.4.2
+  intl: ^0.15.8
 
   flutter:
     sdk: flutter

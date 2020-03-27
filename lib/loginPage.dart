@@ -15,7 +15,7 @@ String name;
 String email;
 String index;
 String imageUrl = "http://pluspng.com/img-png/google-logo-png-open-2000.png";
-
+var updated = true;
 Future<String> signInWithGoogle() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
@@ -24,9 +24,7 @@ Future<String> signInWithGoogle() async {
   } on CameraException catch (e) {
     logError(e.code, e.description);
   }
-  print("break 0");
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-  print("break 1");
   final GoogleSignInAuthentication googleSignInAuthentication =
   await googleSignInAccount.authentication;
 
@@ -192,5 +190,18 @@ class _LoginPageState extends State<LoginPage> {
       'name': name,
       'email': email,
     });
+    var x = false;
+
+    databaseReference.child(index).child('date').once().then((DataSnapshot snapshot) {
+      x = true;
+    });
+    if(!x)
+    {
+      updated = false;
+      databaseReference.child(index).update({
+        'date': updatedate
+      });
+    }
+
   }
 }

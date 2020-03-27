@@ -23,20 +23,20 @@ Future test() async
 {
   if(email!="guest@veggiebuddie.com")
   {
-     databaseReference.once().then((DataSnapshot snapshot)
-     {
-       print(email);
-       var em1 = email.substring(0,email.indexOf('@'));
-        values=Map<String,bool>.from(snapshot.value[em1]['food']);
+    databaseReference.once().then((DataSnapshot snapshot)
+    {
+      print(email);
+      var em1 = email.substring(0,email.indexOf('@'));
+      values=Map<String,bool>.from(snapshot.value[em1]['food']);
     });
   }
   else
-    {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      values.forEach((key, value) {
-        values[key] = prefs.getBool(key) ?? false;
-      });
-    }
+  {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    values.forEach((key, value) {
+      values[key] = prefs.getBool(key) ?? false;
+    });
+  }
 }
 
 class Profile extends StatefulWidget {
@@ -196,14 +196,14 @@ class ProfilePage extends State<Profile> {
                             child: SizedBox(
                                 width: 35.0,
                                 height: 35.0,
-                            child: FloatingActionButton(
-                              backgroundColor: Colors.deepPurple,
-                              onPressed: () async {
-                                await createRecord();
-                              },
-                              child: Icon(Icons.check),
-                            )
-                        ))])))),
+                                child: FloatingActionButton(
+                                  backgroundColor: Colors.deepPurple,
+                                  onPressed: () async {
+                                    await createRecord();
+                                  },
+                                  child: Icon(Icons.check),
+                                )
+                            ))])))),
     ]);
   }
 

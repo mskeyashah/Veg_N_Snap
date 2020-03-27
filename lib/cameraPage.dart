@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' as io;
 //import 'package:adv_camera/adv_camera.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +11,78 @@ import 'package:VeggieBuddie/loginPage.dart';
 import 'package:VeggieBuddie/ProfilePage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart' show DeviceOrientation, rootBundle;
+import 'package:intl/intl.dart' as intl;
+
+final databaseReferenceLatest = FirebaseDatabase(databaseURL: "https://veggie-buddie-latestdate.firebaseio.com/").reference();
+final databaseReference = FirebaseDatabase.instance.reference();
+final databaseReferenceUnknown = FirebaseDatabase(databaseURL: "https://veggie-buddie-unknown.firebaseio.com/").reference();
+final databaseReferenceVeg = FirebaseDatabase(databaseURL: "https://veggie-buddie-veg.firebaseio.com/").reference();
+final databaseReferenceVegan = FirebaseDatabase(databaseURL: "https://veggie-buddie-vegan.firebaseio.com/").reference();
+final databaseReferencenonVeg = FirebaseDatabase(databaseURL: "https://veggie-buddie-nonveg.firebaseio.com/").reference();
+String ing  = "";
+int day =0;
+int month = 0;
+int year = 0;
+int userday =0;
+int usermonth = 0;
+int useryear = 0;
+io.File fileveg;
+io.File filenonveg;
+io.File filevegan;
+String veg1 = "";
+String nonveg1 = "";
+String vegan1 = "";
+var nonVeg;
+var vegetarian;
+var vegan;
+
+var now = new DateTime.now();
+Map<String,String> updatedate = {
+  'Year': now.year.toString(),
+  'Month': now.month.toString(),
+  'Day': now.day.toString()
+};
+
+
+void veg()
+{
+  databaseReferenceVeg.once().then((DataSnapshot snapshot) {
+    List<dynamic> vegIng3 = snapshot.value;
+    veg1 = vegIng3.join("\n");
+    fileveg.writeAsString(veg1);
+  });
+}
+
+void getvegan()
+{
+  databaseReferenceVegan.once().then((DataSnapshot snapshot) {
+    List<dynamic> veganIng = snapshot.value;
+    vegan1 = veganIng.join("\n");
+    filevegan.writeAsString(vegan1);
+  });
+}
+
+void nonveg()
+{
+  databaseReferencenonVeg.once().then((DataSnapshot snapshot) {
+    List<dynamic> nonvegIng = snapshot.value;
+    nonveg1 = nonvegIng.join("\n");
+    filenonveg.writeAsString(nonveg1);
+  });
+}
 
 Future test() async{
+
+  final directory = await getApplicationDocumentsDirectory();
+  final path1 = directory.path;
+
   if(name!="Guest") {
+    var x = false;
     String em1 = email.substring(0,email.indexOf("@"));
     final databaseReference = FirebaseDatabase.instance.reference();
     databaseReference.once().then((DataSnapshot snapshot) {
       values = Map<String, bool>.from(snapshot.value[em1]['food']);
+
     });
     try {
       WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +90,68 @@ Future test() async{
     } on CameraException catch (e) {
       logError(e.code, e.description);
     }
+    fileveg = io.File('$path1/veg.txt');
+    filenonveg = io.File('$path1/nonveg.txt');
+    filevegan = io.File('$path1/vegan.txt');
+
+    databaseReferenceLatest.child("date").once().then((DataSnapshot snapshot) {
+      day = snapshot.value['day'];
+      month = snapshot.value['month'];
+      year = snapshot.value['year'];
+    });
+    databaseReference.child(index).child("date").once().then((
+        DataSnapshot snapshot) {
+      userday = snapshot.value['day'];
+      usermonth = snapshot.value['month'];
+      useryear = snapshot.value['year'];
+    });
+
+    if (year >= useryear) {
+      if(year == useryear)
+      {
+        if(month>usermonth)
+        {
+          updated = false;
+        }
+        else if(month == usermonth)
+        {
+          if(day>userday)
+            updated = false;
+        }
+      }
+      else
+      {
+        updated = false;
+      }
+    }
+
+    if(updated == false) {
+      veg();
+      nonveg();
+      getvegan();
+      updated = true;
+      databaseReference.child(index).update({
+        'date': updatedate
+      });
+      print("Updated!");
+    }
+  }
+  else
+  {
+    bool there = await io.File('$path1/veg.txt').exists();
+    if(there)
+    {
+      fileveg = io.File('$path1/veg.txt');
+      filenonveg = io.File('$path1/nonveg.txt');
+      filevegan = io.File('$path1/vegan.txt');
+    }
+    else
+    {
+      nonVeg=await getFileData("lists/non-veg.txt");
+      vegan = await getFileData("lists/vegan.txt");
+      vegetarian = await getFileData("lists/vegetarian.txt");
+    }
+
   }
 }
 
@@ -149,30 +276,47 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     });
   }
 
+
+
   Future<void> detectLabels() async {
-    final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFilePath(imagePath);
-    final TextRecognizer textRecognizer = FirebaseVision.instance.textRecognizer();
-    final VisionText visionText = await textRecognizer.processImage(visionImage);
+    final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFilePath(
+        imagePath);
+    final TextRecognizer textRecognizer = FirebaseVision.instance
+        .textRecognizer();
+    final VisionText visionText = await textRecognizer.processImage(
+        visionImage);
     String nvIng = "Non-Vegetarian: ";
     String vegIng = "Vegetarian: ";
     String veganIng = "Vegan: ";
     String allerIng = "Allergens: ";
-    String text="";
+    String text = "";
     String text1 = "";
-    String notFound  = "";
+    String notFound = "";
     int check = 0;
-    int nvFlag=0;
+    int nvFlag = 0;
     int veganFlag = 0;
     int vegFlag = 0;
-    int alleFlag=0;
+    int alleFlag = 0;
     String newStr;
-    String t="";
-    String str="";
+    String t = "";
+
     bool end = false;
     var lines;
-    var nonVeg=await getFileData("lists/non-veg.txt");
-    var vegan = await getFileData("lists/vegan.txt");
-    var vegetarian = await getFileData("lists/vegetarian.txt");
+    if(name!="Guest"){
+      String nonVeg2;
+      String Veg2;
+      String Vegan2;
+      try {
+        nonVeg2 = await filenonveg.readAsString();
+        Veg2 = await fileveg.readAsString();
+        Vegan2 = await filevegan.readAsString();
+      } catch (e) {
+        print(e.toString());
+      }
+      nonVeg = nonVeg2.split("\n");
+      vegetarian = Veg2.split("\n");
+      vegan = Vegan2.split("\n");
+    }
     var allergies=["test"];
     if(values["Soybeans"]==true)
       allergies=(await getFileData("lists/allergens/soy.txt"));
@@ -215,7 +359,7 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
                     newStr = element5.toLowerCase();
                     if (text.contains("ingredient") ||
                         newStr.contains("ingredient")) {
-                        text = text + newStr + ",";
+                      text = text + newStr + ",";
                     }
                   }
                 }
@@ -231,47 +375,54 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     }
     var finals = text.split(",");
     for(String element in finals) {
-        print("element: "+element);
-        for (String nonv in nonVeg) {
-            if (element.contains(nonv)) {
-                print("nonv: " + nonv);
-                if(!nvIng.contains(nonv))
-                nvIng = nvIng + nonv + ", ";
-              //print(nonv);
-                check +=1;
-              nvFlag = 1;
-            }
-          }
-          for (String veg1 in vegetarian) {
-            if (element.contains(veg1)) {
-              if(!vegIng.contains(veg1))
-              vegIng = vegIng + element + ", ";
-              print("veg: " + veg1);
-              check +=1;
-              vegFlag = 1;
-            }
-          }
-          for (String vega in vegan) {
-            if (element.contains(vega)) {
-              if(!veganIng.contains(vega))
-                veganIng = veganIng + vega + ", ";
-                print("vegan: " + vega);
-                check +=1;
-              veganFlag = 1;
-            }
-          }
-          for (String alle in allergies) {
-            if (element.contains(alle)) {
-                allerIng = allerIng + alle + ", ";
-                print("allergens: " + element);
-              alleFlag = 1;
-            }
-          }
-          if(check == 0)
-            {
-              notFound = notFound + element + ", ";
-            }
-          check = 0;
+      print("element: "+element);
+      for (String nonv in nonVeg) {
+        if (element.contains(nonv) && nonv!="") {
+          print("nonv: " + nonv);
+          if(!nvIng.contains(nonv))
+            nvIng = nvIng + nonv + ", ";
+          //print(nonv);
+          check +=1;
+          nvFlag = 1;
+        }
+      }
+      for (String veg1 in vegetarian) {
+        if (element.contains(veg1) && veg1!="") {
+          if(!vegIng.contains(veg1))
+            vegIng = vegIng + element + ", ";
+          print("veg: " + veg1);
+          check +=1;
+          vegFlag = 1;
+        }
+      }
+      for (String vega in vegan) {
+        if (element.contains(vega) && vega!="") {
+          if(!veganIng.contains(vega))
+            veganIng = veganIng + vega + ", ";
+          print("vegan: " + vega);
+          check +=1;
+          veganFlag = 1;
+        }
+      }
+      for (String alle in allergies) {
+        if (element.contains(alle)) {
+          allerIng = allerIng + alle + ", ";
+          print("allergens: " + element);
+          alleFlag = 1;
+        }
+      }
+      if(check == 0)
+      {
+        notFound = notFound + element + ", ";
+        if(name!="Guest" && element!="")
+        {
+          databaseReferenceUnknown.push().set({
+            'item': element
+          });
+        }
+      }
+      check = 0;
+
     }
     if(allerIng!="Allergens: ")
     {
@@ -298,7 +449,12 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     String status = "The ingredients could not be detected!";
     int x=1;
     String filegif = "gifs/notfound.gif";
-    if (nvFlag==1) {
+    if(notFound!="")
+    {
+      text1 = "Sorry, one or more ingredients were not found";
+      alleFlag = 0;
+    }
+    else if (nvFlag==1) {
       status="The product is Non-Vegetarian!";
       filegif = "gifs/nonveg.gif";
       x=0;
@@ -342,14 +498,6 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
                                 fontSize: 15
                             ))
                     )),
-//                Expanded(
-//                    child: new SingleChildScrollView(
-//                        child: new Text(text,
-//                            textAlign: TextAlign.left,
-//                            style: TextStyle(
-//                                fontSize: 15
-//                            ))
-//                    ))
               ]
           ),
           actions: <Widget>[
@@ -368,9 +516,9 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
       showInSnackBar('Error: select a camera first.');
       return null;
     }
-    final Directory extDir = await getApplicationDocumentsDirectory();
+    final io.Directory extDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${extDir.path}/Pictures/Foodie';
-    await Directory(dirPath).create(recursive: true);
+    await io.Directory(dirPath).create(recursive: true);
     final String filePath = '$dirPath/${timestamp()}.jpg';
     if (controller.value.isTakingPicture) {
       return null;
