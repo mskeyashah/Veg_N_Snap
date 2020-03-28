@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:io' as io;
-//import 'package:adv_camera/adv_camera.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/services.dart';
-import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:VeggieBuddie/loginPage.dart';
 import 'package:VeggieBuddie/ProfilePage.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -19,6 +17,8 @@ final databaseReferenceUnknown = FirebaseDatabase(databaseURL: "https://veggie-b
 final databaseReferenceVeg = FirebaseDatabase(databaseURL: "https://veggie-buddie-veg.firebaseio.com/").reference();
 final databaseReferenceVegan = FirebaseDatabase(databaseURL: "https://veggie-buddie-vegan.firebaseio.com/").reference();
 final databaseReferencenonVeg = FirebaseDatabase(databaseURL: "https://veggie-buddie-nonveg.firebaseio.com/").reference();
+final databaseReferencedelimiters = FirebaseDatabase(databaseURL: "https://veggie-buddie-delimiters.firebaseio.com/").reference();
+
 String ing  = "";
 int day =0;
 int month = 0;
@@ -29,12 +29,15 @@ int useryear = 0;
 io.File fileveg;
 io.File filenonveg;
 io.File filevegan;
+io.File filedelimiters;
 String veg1 = "";
 String nonveg1 = "";
 String vegan1 = "";
+String delimiter1 = "";
 var nonVeg;
 var vegetarian;
 var vegan;
+var delimiter;
 
 var now = new DateTime.now();
 Map<String,String> updatedate = {
@@ -59,6 +62,15 @@ void getvegan()
     List<dynamic> veganIng = snapshot.value;
     vegan1 = veganIng.join("\n");
     filevegan.writeAsString(vegan1);
+  });
+}
+
+void getdelimiters()
+{
+  databaseReferencedelimiters.once().then((DataSnapshot snapshot) {
+    List<dynamic> delimiter = snapshot.value;
+    delimiter1 = delimiter.join("\n");
+    filedelimiters.writeAsString(vegan1);
   });
 }
 
@@ -93,6 +105,8 @@ Future test() async{
     fileveg = io.File('$path1/veg.txt');
     filenonveg = io.File('$path1/nonveg.txt');
     filevegan = io.File('$path1/vegan.txt');
+    filedelimiters = io.File('$path1/delimiters.txt');
+
 
     databaseReferenceLatest.child("date").once().then((DataSnapshot snapshot) {
       day = snapshot.value['day'];
@@ -129,6 +143,7 @@ Future test() async{
       veg();
       nonveg();
       getvegan();
+      getdelimiters();
       updated = true;
       databaseReference.child(index).update({
         'date': updatedate
@@ -144,12 +159,14 @@ Future test() async{
       fileveg = io.File('$path1/veg.txt');
       filenonveg = io.File('$path1/nonveg.txt');
       filevegan = io.File('$path1/vegan.txt');
+      filedelimiters = io.File('$path1/delimiters.txt');
     }
     else
     {
       nonVeg=await getFileData("lists/non-veg.txt");
       vegan = await getFileData("lists/vegan.txt");
       vegetarian = await getFileData("lists/vegetarian.txt");
+      delimiter = await getFileData("lists/delimiters.txt");
     }
 
   }
@@ -291,7 +308,7 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     String allerIng = "Allergens: ";
     String text = "";
     String text1 = "";
-    String notFound = "";
+    String notFound = "Not Found: ";
     int check = 0;
     int nvFlag = 0;
     int veganFlag = 0;
@@ -306,16 +323,19 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
       String nonVeg2;
       String Veg2;
       String Vegan2;
+      String delim;
       try {
         nonVeg2 = await filenonveg.readAsString();
         Veg2 = await fileveg.readAsString();
         Vegan2 = await filevegan.readAsString();
+        delim = await filedelimiters.readAsString();
       } catch (e) {
         print(e.toString());
       }
       nonVeg = nonVeg2.split("\n");
       vegetarian = Veg2.split("\n");
       vegan = Vegan2.split("\n");
+      delimiter = delim.split("\n");
     }
     var allergies=["test"];
     if(values["Soybeans"]==true)
@@ -340,11 +360,15 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
         break;
       else
         for (TextLine line in block.lines) {
-          if(line.text.toLowerCase().contains("manufactured") || line.text.toLowerCase().contains("distributed"))
-          {
-            end = true;
-            break;
+          for(String del in delimiter) {
+            print("del: "+del);
+            if (line.text.toLowerCase().contains(del)) {
+              end = true;
+              break;
+            }
           }
+          if(end)
+            break;
           lines = line.text.split(",");
           //for (TextElement element in line.elements) {
           for(String element in lines) {
@@ -440,6 +464,7 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     {
       text1 += "\n\n"+veganIng;
     }
+
     print("text: "+text);
     print("not found: " + notFound);
     print("veg: " + vegIng);
@@ -449,10 +474,11 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     String status = "The ingredients could not be detected!";
     int x=1;
     String filegif = "gifs/notfound.gif";
-    if(notFound!="")
+    if(notFound!="Not Found: ")
     {
-      text1 = "Sorry, one or more ingredients were not found";
-      alleFlag = 0;
+      text1+="\n\n" +notFound;
+      status = "\nSorry, one or more ingredients were not found";
+      x =1;
     }
     else if (nvFlag==1) {
       status="The product is Non-Vegetarian!";
@@ -473,7 +499,9 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
 
     if(x==0)
       t="You are not allergic to this!";
-    if(alleFlag==1)
+    if(x==1)
+      t = "";
+    else if(alleFlag==1)
       t="You are allergic to this!";
 
     showDialog(

@@ -1,0 +1,7 @@
+manufactured
+packaged
+distributed
+dist
+produced
+made
+by
