@@ -28,6 +28,8 @@ dependencies:
   translator: ^0.1.4
   shared_preferences: ^0.4.2
   intl: ^0.15.8
+  smooth_star_rating: ^1.0.4+2
+
 
   flutter:
     sdk: flutter

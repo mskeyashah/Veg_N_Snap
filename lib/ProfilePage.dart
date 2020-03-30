@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:VeggieBuddie/loginPage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
+
 
 final databaseReference = FirebaseDatabase.instance.reference();
-
+var rating1 = 0.0;
+String feedback = "";
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 Map<String, bool> values = {
@@ -66,6 +69,7 @@ class ProfilePage extends State<Profile> {
     {
       print("Fetching");
     }
+    TextEditingController _textFieldController = TextEditingController();
     return Stack(children: <Widget>[
       Scaffold(
           key: _scaffoldKey,
@@ -154,6 +158,47 @@ class ProfilePage extends State<Profile> {
                                       elevation: 5,
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(40)),
+                                    ),
+                                    SizedBox(height: 5),
+                                    RaisedButton(
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                title: Text('Please give us your feedback:'),
+                                                content: TextField(
+                                                  controller: _textFieldController,
+                                                  decoration: InputDecoration(hintText: "Type here"),
+                                                ),
+                                                actions: <Widget>[
+                                                  new FlatButton(
+                                                    child: new Text('SUBMIT', style: TextStyle(fontSize: 18.0,color: Colors.white)),
+                                                    color: Colors.teal[300],
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(40)
+                                                    ),
+                                                    onPressed: () {
+                                                      feedback = _textFieldController.text;
+                                                      Navigator.of(context).pop();
+                                                      giveFeedback(context);
+                                                    },
+                                                  )
+                                                ],
+                                              );
+                                            });
+                                      },
+                                      color: Colors.deepPurple,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(1.0),
+                                        child: Text(
+                                          'Your Feedback',
+                                          style: TextStyle(fontSize: 18, color: Colors.white),
+                                        ),
+                                      ),
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(40)),
                                     )
                                   ])
                             ]),
@@ -219,4 +264,33 @@ class ProfilePage extends State<Profile> {
     }
     _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Changes saved!")));
   }
+}
+
+Future giveFeedback(BuildContext context) async {
+  if(email!="guest@veggiebuddie.com") {
+    final databaseReferenceFeedback = FirebaseDatabase(databaseURL: "https://veggie-buddie-feedback.firebaseio.com/").reference();
+    databaseReferenceFeedback.push().set({
+     'feedback': feedback
+    });
+  }
+
+  showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Thank you for your feedback'),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text('Close', style: TextStyle(fontSize: 18.0,color: Colors.white) ),
+              color: Colors.teal[300],
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40)
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      });
 }

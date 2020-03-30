@@ -9,7 +9,6 @@ import 'package:VeggieBuddie/loginPage.dart';
 import 'package:VeggieBuddie/ProfilePage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart' show DeviceOrientation, rootBundle;
-import 'package:intl/intl.dart' as intl;
 
 final databaseReferenceLatest = FirebaseDatabase(databaseURL: "https://veggie-buddie-latestdate.firebaseio.com/").reference();
 final databaseReference = FirebaseDatabase.instance.reference();
@@ -37,7 +36,7 @@ String delimiter1 = "";
 var nonVeg;
 var vegetarian;
 var vegan;
-var delimiter;
+var delimiterFinal;
 
 var now = new DateTime.now();
 Map<String,String> updatedate = {
@@ -70,7 +69,8 @@ void getdelimiters()
   databaseReferencedelimiters.once().then((DataSnapshot snapshot) {
     List<dynamic> delimiter = snapshot.value;
     delimiter1 = delimiter.join("\n");
-    filedelimiters.writeAsString(vegan1);
+    print("delim1: "+delimiter1);
+    filedelimiters.writeAsString(delimiter1);
   });
 }
 
@@ -89,7 +89,6 @@ Future test() async{
   final path1 = directory.path;
 
   if(name!="Guest") {
-    var x = false;
     String em1 = email.substring(0,email.indexOf("@"));
     final databaseReference = FirebaseDatabase.instance.reference();
     databaseReference.once().then((DataSnapshot snapshot) {
@@ -166,7 +165,7 @@ Future test() async{
       nonVeg=await getFileData("lists/non-veg.txt");
       vegan = await getFileData("lists/vegan.txt");
       vegetarian = await getFileData("lists/vegetarian.txt");
-      delimiter = await getFileData("lists/delimiters.txt");
+      delimiterFinal = await getFileData("lists/delimiters.txt");
     }
 
   }
@@ -321,21 +320,21 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     var lines;
     if(name!="Guest"){
       String nonVeg2;
-      String Veg2;
-      String Vegan2;
-      String delim;
+      String veg2;
+      String vegan2;
+      String delim2;
       try {
         nonVeg2 = await filenonveg.readAsString();
-        Veg2 = await fileveg.readAsString();
-        Vegan2 = await filevegan.readAsString();
-        delim = await filedelimiters.readAsString();
+        veg2 = await fileveg.readAsString();
+        vegan2 = await filevegan.readAsString();
+        delim2 = await filedelimiters.readAsString();
       } catch (e) {
         print(e.toString());
       }
       nonVeg = nonVeg2.split("\n");
-      vegetarian = Veg2.split("\n");
-      vegan = Vegan2.split("\n");
-      delimiter = delim.split("\n");
+      vegetarian = veg2.split("\n");
+      vegan = vegan2.split("\n");
+      delimiterFinal = delim2.split("\n");
     }
     var allergies=["test"];
     if(values["Soybeans"]==true)
@@ -354,15 +353,19 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
       allergies=[...allergies, ...(await getFileData("lists/allergens/eggs.txt"))];
     if(values["Milk"]==true)
       allergies=[...allergies, ...(await getFileData("lists/allergens/milk.txt"))];
+    if(values["Gluten"]==true)
+      allergies=[...allergies, ...(await getFileData("lists/allergens/gluten.txt"))];
 
     for (TextBlock block in visionText.blocks) {
       if(end)
         break;
       else
         for (TextLine line in block.lines) {
-          for(String del in delimiter) {
+          for(String del in delimiterFinal) {
             print("del: "+del);
-            if (line.text.toLowerCase().contains(del)) {
+            print("line: "+line.text);
+            if (line.text.toLowerCase()!="" && line.text.toLowerCase().contains(del)) {
+              print("end is true");
               end = true;
               break;
             }
@@ -381,8 +384,8 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
                   var lines5 = element4.split("]");
                   for (String element5 in lines5) {
                     newStr = element5.toLowerCase();
-                    if (text.contains("ingredient") ||
-                        newStr.contains("ingredient")) {
+                    if ((text.contains("ingredient") ||
+                        newStr.contains("ingredient")) && newStr!="") {
                       text = text + newStr + ",";
                     }
                   }
@@ -400,53 +403,54 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     var finals = text.split(",");
     for(String element in finals) {
       print("element: "+element);
-      for (String nonv in nonVeg) {
-        if (element.contains(nonv) && nonv!="") {
-          print("nonv: " + nonv);
-          if(!nvIng.contains(nonv))
-            nvIng = nvIng + nonv + ", ";
-          //print(nonv);
-          check +=1;
-          nvFlag = 1;
+      if(element!="") {
+        for (String nonv in nonVeg) {
+          if (element.contains(nonv) && nonv != "") {
+            print("nonv: " + nonv);
+            if (!nvIng.contains(nonv))
+              nvIng = nvIng + nonv + ", ";
+            //print(nonv);
+            check += 1;
+            nvFlag = 1;
+          }
         }
-      }
-      for (String veg1 in vegetarian) {
-        if (element.contains(veg1) && veg1!="") {
-          if(!vegIng.contains(veg1))
-            vegIng = vegIng + element + ", ";
-          print("veg: " + veg1);
-          check +=1;
-          vegFlag = 1;
+        for (String veg1 in vegetarian) {
+          if (element.contains(veg1) && veg1 != "") {
+            if (!vegIng.contains(veg1))
+              vegIng = vegIng + element + ", ";
+            print("veg: " + veg1);
+            check += 1;
+            vegFlag = 1;
+          }
         }
-      }
-      for (String vega in vegan) {
-        if (element.contains(vega) && vega!="") {
-          if(!veganIng.contains(vega))
-            veganIng = veganIng + vega + ", ";
-          print("vegan: " + vega);
-          check +=1;
-          veganFlag = 1;
+        for (String vega in vegan) {
+          if (element.contains(vega) && vega != "") {
+            if (!veganIng.contains(vega))
+              veganIng = veganIng + vega + ", ";
+            print("vegan: " + vega);
+            check += 1;
+            veganFlag = 1;
+          }
         }
-      }
-      for (String alle in allergies) {
-        if (element.contains(alle)) {
-          allerIng = allerIng + alle + ", ";
-          print("allergens: " + element);
-          alleFlag = 1;
+        for (String alle in allergies) {
+          if (element.contains(alle)) {
+            if(!allerIng.contains(alle))
+             allerIng = allerIng + alle + ", ";
+            print("allergens: " + element);
+            alleFlag = 1;
+          }
         }
-      }
-      if(check == 0)
-      {
-        notFound = notFound + element + ", ";
-        if(name!="Guest" && element!="")
-        {
-          databaseReferenceUnknown.push().set({
-            'item': element
-          });
+        if (check == 0) {
+          if (element != " " || element != "")
+            notFound = notFound + element + ", ";
+          if (name != "Guest" && element != "") {
+            databaseReferenceUnknown.push().set({
+              'item': element
+            });
+          }
         }
+        check = 0;
       }
-      check = 0;
-
     }
     if(allerIng!="Allergens: ")
     {
@@ -476,7 +480,8 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     String filegif = "gifs/notfound.gif";
     if(notFound!="Not Found: ")
     {
-      text1+="\n\n" +notFound;
+      if(text!="")
+        text1+="\n\n" +notFound;
       status = "\nSorry, one or more ingredients were not found";
       x =1;
     }
@@ -530,7 +535,11 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text('Ok'),
+              child: Text('Ok', style: TextStyle(fontSize: 18.0,color: Colors.white)),
+              color: Colors.teal[300],
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40)
+              ),
               onPressed: () {
                 Navigator.of(context, rootNavigator: true).pop();
               },
