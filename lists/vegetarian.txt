@@ -1,43 +1,47 @@
 acid casein
-albumen
-beeswax
-calcium caseinate
-carbohydrate
-casein
-honey
-lac-resin
-lactalbumin
-lactose
-royal jelly
-shellac
-Simplesse
-sodium caseinate
-vitamin D3
 acidulant
 alanine
+albumen
 albumin
+alcohol
+almond milk
 amino acid
 antidusting agent
 antioxidant
 arginine
 artificial flavor
+aspartame
 aspartic acid
+beeswax
 beta-carotene
 biotin
+bran
+butter
+buttermilk
+calcium caseinate
 caproic acid
 caprylic acid
+caramel
+carbohydrate
 carotene
 carotenoid
+casein
+chamomile
+chewing gum base
+chocolate
 cholecalciferol
 coenzyme
 color
 corn sugar
+cream
 curing agent
 dough conditioner
 drying agent
 emulsifier
 enzyme
+extractive
 fermentation aid
+flavor
 flavor enhancer
 foaming agent
 fructose
@@ -45,22 +49,35 @@ fructose syrup
 glutamic acid
 glycine
 hexanoic acid
+honey
 humectant
 hydroscopic agent
+lac-resin
+lactalbumin
 lactase
+lactose
 levulose
 malting aid
+milk
 moisture-retaining agent
 moisture-retention agent
+monterey jack cheese
+mustard
 n-hexanoic acid
+natural flavor
 protease
 Provitamin A
+royal jelly
+shellac
+Simplesse
+sodium caseinate
 surface acting agent
 surface-finishing agent
 surface-finishing agents
+vinegar
 vitamin B factor
+vitamin D3
 wax
 wetting agent
 whey
 whipping agent
-chocolate

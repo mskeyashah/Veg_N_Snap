@@ -56,3 +56,4 @@ bouillabaisse
 fish stock
 seafood flavorings
 surimi
+egg
