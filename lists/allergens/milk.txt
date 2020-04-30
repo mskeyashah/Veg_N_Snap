@@ -1,8 +1,7 @@
 artificial butter flavor
 butter 
 fat
-butter 
-oil
+butter
 butter
 casein
 caseinates
