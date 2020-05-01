@@ -10,5 +10,5 @@ final kTitleStyle = TextStyle(
 final kSubtitleStyle = TextStyle(
   color: Colors.white,
   fontSize: 18.0,
-  height: 1.2,
+  height: 1.0,
 );

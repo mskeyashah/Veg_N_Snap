@@ -9,7 +9,7 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final int _numPages = 3;
+  final int _numPages = 4;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
@@ -83,14 +83,33 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       });
                     },
                     children: <Widget>[
+                      Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(height: 210),
+                            Center(
+                              child:
+                            Text("Welcome to\n     VeggieBuddie!",
+                              style:TextStyle(
+                                  fontSize: 35,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic,
+                              ),
+                            )
+                            )
+                          ],
+                          ),
+                      ),
 
                       Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("Welcome to VeggieBuddie!",style: kTitleStyle,),
-                            SizedBox(height: 20.0),
+
                             Center(
                               child: Image(
                                 image: AssetImage(
@@ -109,27 +128,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(40.0),
+                        padding: EdgeInsets.all(20.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+                            Text(
+                              'Take a picture of the ingredients by tapping the camera icon.\n',
+                              style: kSubtitleStyle,
+                            ),
                             Center(
-                              /*child: Image(
+                              child: Image(
                                 image: AssetImage(
-                                  'assets/images/onboarding1.png',
+                                  'gifs/takepicfinal.gif',
                                 ),
                                 height: 300.0,
-                                width: 300.0,
-                              ),*/
+                                width: 350.0,
+                              ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height: 14.0),
                             Text(
-                              'Live your life smarter\nwith us!',
-                              style: kTitleStyle,
-                            ),
-                            SizedBox(height: 15.0),
-                            Text(
-                              'Lorem ipsum dolor sit amet, consect adipiscing elit, sed do eiusmod tempor incididunt ut labore et.',
+                              'Recieve information such as the distribution of vegan, vegetarian, and non-vegetarian ingredients as well as any allergen information pertaining to you.',
                               style: kSubtitleStyle,
                             ),
                           ],
