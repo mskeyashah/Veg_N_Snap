@@ -88,7 +88,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           child: Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            SizedBox(height: 210),
+                            SizedBox(height: 200),
                             Center(
                               child:
                             Text("Welcome to\n     VeggieBuddie!",
