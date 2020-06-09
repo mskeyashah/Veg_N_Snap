@@ -81,9 +81,15 @@ class _LoginPageState extends State<LoginPage> {
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [Colors.teal[400], Colors.teal[200]],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.1, 0.4, 0.7, 0.9],
+            colors: [
+              Color(0xFF3594DD),
+              Color(0xFF4563DB),
+              Color(0xFF5036D5),
+              Color(0xFF5B16D0),
+            ],
           ),
         ),
         child: Center(
@@ -91,11 +97,11 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image(image: AssetImage("images/logo.png"), height: 200.0),
+              Image(image: AssetImage("images/icon.png"), height: 200.0),
               SizedBox(height: 20),
               Directionality(
                 textDirection: TextDirection.ltr,
-                child:Text("VeggieBuddie",style: TextStyle(fontSize: 40,color: Colors.green[200],fontWeight: FontWeight.w900,),),
+                child:Text("Veggie Buddy",style: TextStyle(fontSize: 40,color: Colors.white,fontWeight: FontWeight.w900,),),
               ),
               SizedBox(height: 50),
               Directionality(
@@ -126,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.black),
+      borderSide: BorderSide(color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: Row(
@@ -140,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Sign in with Google',
                 style: TextStyle(
                   fontSize: 20,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ),
             )
@@ -162,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.black),
+      borderSide: BorderSide(color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: Row(
@@ -175,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Sign in as Guest',
                 style: TextStyle(
                   fontSize: 20,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ),
             )

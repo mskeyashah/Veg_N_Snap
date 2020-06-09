@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:VeggieBuddie/loginPage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 
 final databaseReference = FirebaseDatabase.instance.reference();
@@ -76,9 +75,15 @@ class ProfilePage extends State<Profile> {
           body: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [Colors.blue[400], Colors.blue[100]],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.1, 0.4, 0.7, 0.9],
+                  colors: [
+                    Color(0xFF3594DD),
+                    Color(0xFF4563DB),
+                    Color(0xFF5036D5),
+                    Color(0xFF5B16D0),
+                  ],
                 ),
               ),
 
@@ -101,7 +106,7 @@ class ProfilePage extends State<Profile> {
                                         imageUrl,
                                       ),
                                       radius: 45,
-                                      backgroundColor: Colors.transparent,
+                                      backgroundColor: Colors.white,
 
                                     )
                                   ] ),
@@ -116,13 +121,13 @@ class ProfilePage extends State<Profile> {
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.black54),
+                                          color: Colors.white),
                                     ),
                                     Text(
                                       name,
                                       style: TextStyle(
                                           fontSize: 15,
-                                          color: Colors.deepPurple,
+                                          color: Colors.white,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     SizedBox(height: 10),
@@ -131,13 +136,13 @@ class ProfilePage extends State<Profile> {
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.black54),
+                                          color: Colors.white),
                                     ),
                                     Text(
                                       email,
                                       style: TextStyle(
                                           fontSize: 15,
-                                          color: Colors.deepPurple,
+                                          color: Colors.white,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     SizedBox(height: 5),
@@ -174,7 +179,7 @@ class ProfilePage extends State<Profile> {
                                                 actions: <Widget>[
                                                   new FlatButton(
                                                     child: new Text('SUBMIT', style: TextStyle(fontSize: 18.0,color: Colors.white)),
-                                                    color: Colors.teal[300],
+                                                    color: Colors.deepPurple,
                                                     shape: RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.circular(40)
                                                     ),
@@ -207,13 +212,13 @@ class ProfilePage extends State<Profile> {
                           '  Scroll down and select the ingredients ',
                           style: TextStyle(
                               fontSize: 15,
-                              color: Colors.black),
+                              color: Colors.white),
                         ),
                         Text(
                           'you are allergic to.',
                           style: TextStyle(
                               fontSize: 15,
-                              color: Colors.black),
+                              color: Colors.white),
                         ),
 
                         Expanded(
@@ -222,8 +227,10 @@ class ProfilePage extends State<Profile> {
                                 children: values.keys.map(
                                       (String key) {
                                     return new CheckboxListTile(
-                                      activeColor: Colors.deepPurple,
-                                      title: new Text(key),
+                                      activeColor: Colors.white,
+                                      checkColor: Colors.deepPurple,
+                                      title: new Text(key, style: TextStyle(
+                                          color: Colors.white),),
                                       value: values[key],
                                       onChanged: (bool value) {
                                         setState(() {
@@ -242,11 +249,11 @@ class ProfilePage extends State<Profile> {
                                 width: 35.0,
                                 height: 35.0,
                                 child: FloatingActionButton(
-                                  backgroundColor: Colors.deepPurple,
+                                  backgroundColor: Colors.white,
                                   onPressed: () async {
                                     await createRecord();
                                   },
-                                  child: Icon(Icons.check),
+                                  child: Icon(Icons.check, color: Colors.deepPurple),
                                 )
                             ))])))),
     ]);
@@ -282,7 +289,7 @@ Future giveFeedback(BuildContext context) async {
           actions: <Widget>[
             new FlatButton(
               child: new Text('Close', style: TextStyle(fontSize: 18.0,color: Colors.white) ),
-              color: Colors.teal[300],
+              color: Colors.deepPurple,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40)
               ),

@@ -91,7 +91,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             SizedBox(height: 200),
                             Center(
                               child:
-                            Text("Welcome to\n     Veggie Buddie!",
+                            Text("Welcome to\n     Veggie Buddy!",
                               style:TextStyle(
                                   fontSize: 35,
                                   color: Colors.white,

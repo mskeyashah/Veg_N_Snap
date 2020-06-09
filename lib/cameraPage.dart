@@ -362,10 +362,7 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
       else
         for (TextLine line in block.lines) {
           for(String del in delimiterFinal) {
-            print("del: "+del);
-            print("line: "+line.text);
             if (line.text.toLowerCase()!="" && line.text.toLowerCase().contains(del)) {
-              print("end is true");
               end = true;
               break;
             }
@@ -402,14 +399,12 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     }
     var finals = text.split(",");
     for(String element in finals) {
-      print("element: "+element);
       if(element!="") {
         for (String nonv in nonVeg) {
           if (element.contains(nonv) && nonv != "") {
             print("nonv: " + nonv);
             if (!nvIng.contains(nonv))
               nvIng = nvIng + nonv + ", ";
-            //print(nonv);
             check += 1;
             nvFlag = 1;
           }
@@ -418,7 +413,6 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
           if (element.contains(veg1) && veg1 != "") {
             if (!vegIng.contains(veg1))
               vegIng = vegIng + element + ", ";
-            print("veg: " + veg1);
             check += 1;
             vegFlag = 1;
           }
@@ -427,7 +421,6 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
           if (element.contains(vega) && vega != "") {
             if (!veganIng.contains(vega))
               veganIng = veganIng + vega + ", ";
-            print("vegan: " + vega);
             check += 1;
             veganFlag = 1;
           }
@@ -436,7 +429,6 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
           if (element.contains(alle)) {
             if(!allerIng.contains(alle))
              allerIng = allerIng + alle + ", ";
-            print("allergens: " + element);
             alleFlag = 1;
           }
         }
@@ -468,13 +460,6 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
     {
       text1 += "\n\n"+veganIng;
     }
-
-    print("text: "+text);
-    print("not found: " + notFound);
-    print("veg: " + vegIng);
-    print("non-veg: "+nvIng);
-    print("vegan: " + veganIng);
-    print("aleergens: " + allerIng);
     String status = "The ingredients could not be detected!";
     int x=1;
     String filegif = "gifs/notfound.gif";
@@ -536,7 +521,7 @@ class _FlutterVisionHomeState extends State<FlutterVisionHome> {
           actions: <Widget>[
             FlatButton(
               child: Text('Ok', style: TextStyle(fontSize: 18.0,color: Colors.white)),
-              color: Colors.teal[300],
+              color: Colors.deepPurple,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40)
               ),
