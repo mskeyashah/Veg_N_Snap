@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:VeggieBuddie/loginPage.dart';
-import 'package:VeggieBuddie/onboardingscreen.dart';
+import 'package:VegNSnap/loginPage.dart';
+import 'package:VegNSnap/onboardingscreen.dart';
 import 'package:camera/camera.dart';
-import 'package:VeggieBuddie/cameraPage.dart';
+import 'package:VegNSnap/cameraPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 int initScreen;

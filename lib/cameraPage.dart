@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/services.dart';
-import 'package:VeggieBuddie/loginPage.dart';
-import 'package:VeggieBuddie/ProfilePage.dart';
+import 'package:VegNSnap/loginPage.dart';
+import 'package:VegNSnap/ProfilePage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart' show DeviceOrientation, rootBundle;
 

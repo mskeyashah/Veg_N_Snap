@@ -1,7 +1,7 @@
-import 'package:VeggieBuddie/loginPage.dart';
+import 'package:VegNSnap/loginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:VeggieBuddie/styles.dart';
+import 'package:VegNSnap/styles.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -88,10 +88,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           child: Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            SizedBox(height: 200),
+                            Center(
+                              child: Image(image: AssetImage("images/icon.png"), height: 200.0),
+                            ),
+
+                            SizedBox(height: 30),
                             Center(
                               child:
-                            Text("Welcome to\n     Veggie Buddy!",
+                            Text("Welcome to\n           Veg N' Snap!",
                               style:TextStyle(
                                   fontSize: 35,
                                   color: Colors.white,

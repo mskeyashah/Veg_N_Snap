@@ -1,10 +1,10 @@
-import 'package:VeggieBuddie/homePage.dart';
+import 'package:VegNSnap/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:VeggieBuddie/cameraPage.dart';
+import 'package:VegNSnap/cameraPage.dart';
 import 'package:camera/camera.dart';
 
 final databaseReference = FirebaseDatabase.instance.reference();
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 20),
               Directionality(
                 textDirection: TextDirection.ltr,
-                child:Text("Veggie Buddy",style: TextStyle(fontSize: 40,color: Colors.white,fontWeight: FontWeight.w900,),),
+                child:Text("Veg N' Snap",style: TextStyle(fontSize: 40,color: Colors.white,fontWeight: FontWeight.w900,),),
               ),
               SizedBox(height: 50),
               Directionality(
@@ -161,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
       splashColor: Colors.white,
       onPressed: () async {
         name = "Guest";
-        email = "guest@veggiebuddie.com";
+        email = "guest@vegn'snap.com";
         index = "guest";
         await createRecord();
         runApp(Home());

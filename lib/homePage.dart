@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:VeggieBuddie/cameraPage.dart';
-import 'package:VeggieBuddie/ProfilePage.dart';
+import 'package:VegNSnap/cameraPage.dart';
+import 'package:VegNSnap/ProfilePage.dart';
 import 'package:flutter/services.dart';
 
 void main(){

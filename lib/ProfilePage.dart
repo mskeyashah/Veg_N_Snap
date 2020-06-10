@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:VeggieBuddie/loginPage.dart';
+import 'package:VegNSnap/loginPage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
