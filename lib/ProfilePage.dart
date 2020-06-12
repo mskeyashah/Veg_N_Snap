@@ -23,7 +23,7 @@ Map<String, bool> values = {
 
 Future test() async
 {
-  if(email!="guest@veggiebuddie.com")
+  if(email!="guest@vegn'snap.com")
   {
     databaseReference.once().then((DataSnapshot snapshot)
     {
@@ -260,7 +260,7 @@ class ProfilePage extends State<Profile> {
   }
 
   Future createRecord() async {
-    if(email!="guest@veggiebuddie.com") {
+    if(email!="guest@vegn'snap.com") {
       databaseReference.child(index).update({'food': values});
     }
     else {
@@ -274,7 +274,7 @@ class ProfilePage extends State<Profile> {
 }
 
 Future giveFeedback(BuildContext context) async {
-  if(email!="guest@veggiebuddie.com") {
+  if(email!="guest@vegn'snap.com") {
     final databaseReferenceFeedback = FirebaseDatabase(databaseURL: "https://veggie-buddie-feedback.firebaseio.com/").reference();
     databaseReferenceFeedback.push().set({
      'feedback': feedback
