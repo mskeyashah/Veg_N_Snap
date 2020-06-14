@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "296292818724-i8gc3nn1hv3begs34iesol5m5vs9eo2a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.VegNSnap",
+            "certificate_hash": "5136d76a557291a5a82957d4051b041cd7242191"
+          }
+        },
+        {
           "client_id": "296292818724-1oafk1ut1ocho0n7jt8metch9oc6i11u.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -40,54 +48,10 @@
               "client_type": 3
             },
             {
-              "client_id": "296292818724-9h0k94bd4u150oqcl74b4d2v9je6g7f3.apps.googleusercontent.com",
+              "client_id": "296292818724-4634son62pk44e53ji4u7evniitkpqqt.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.VeggieBuddie"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:296292818724:android:42b5a067fe915f57f39db1",
-        "android_client_info": {
-          "package_name": "com.android.VegNSnap"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "296292818724-h3r779493pbfni00knch166s7v47ej7s.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.android.VegNSnap",
-            "certificate_hash": "cd4a0f213126507ef23f098c1bde7cf63270905c"
-          }
-        },
-        {
-          "client_id": "296292818724-rgps6mkfu0bjarss0b0oe0p4d3tg0cd2.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC0rxdlYiPA1X-U9weUKp59tOkXdvOM_fs"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "296292818724-rgps6mkfu0bjarss0b0oe0p4d3tg0cd2.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "296292818724-9h0k94bd4u150oqcl74b4d2v9je6g7f3.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.VeggieBuddie"
+                "bundle_id": "com.vegnsnapios"
               }
             }
           ]
@@ -128,10 +92,10 @@
               "client_type": 3
             },
             {
-              "client_id": "296292818724-9h0k94bd4u150oqcl74b4d2v9je6g7f3.apps.googleusercontent.com",
+              "client_id": "296292818724-4634son62pk44e53ji4u7evniitkpqqt.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.VeggieBuddie"
+                "bundle_id": "com.vegnsnapios"
               }
             }
           ]
@@ -188,10 +152,10 @@
               "client_type": 3
             },
             {
-              "client_id": "296292818724-9h0k94bd4u150oqcl74b4d2v9je6g7f3.apps.googleusercontent.com",
+              "client_id": "296292818724-4634son62pk44e53ji4u7evniitkpqqt.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.VeggieBuddie"
+                "bundle_id": "com.vegnsnapios"
               }
             }
           ]
