@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "296292818724-3s04kujuk72algmnbip9fc48kmq146u7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.VegNSnap",
+            "certificate_hash": "c320e2939b308dc98223ac131042a3c534487fa7"
+          }
+        },
+        {
           "client_id": "296292818724-i8gc3nn1hv3begs34iesol5m5vs9eo2a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
